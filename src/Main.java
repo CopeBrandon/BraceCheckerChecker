@@ -3,6 +3,7 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) {
         BraceChecker braceChecker = new BraceChecker();
+        StackBraceChecker stackBraceChecker = new StackBraceChecker();
         HashMap<String, Boolean> testsAndResults = new HashMap<String, Boolean>();
         testsAndResults.put("()", true);
         testsAndResults.put("[(])", false);
@@ -10,15 +11,24 @@ public class Main {
         testsAndResults.put("{[()]}", true);
 
         testRunner(testsAndResults, braceChecker);
+        multiTestRunner(testsAndResults, braceChecker);
+
+        testRunner(testsAndResults, braceChecker);
+        multiTestRunner(testsAndResults, stackBraceChecker);
     }
-    static void testRunner(HashMap<String, Boolean> testsAndResults, BraceCheckable braceChecker){
-        float start = System.nanoTime();
+    static void multiTestRunner(HashMap<String, Boolean> testsAndResults, BraceCheckable braceChecker){
         float nanoConversion = (float) Math.pow(10, 9);
-        boolean[] results = checker(braceChecker, testsAndResults);
-        printResults(braceChecker.getName(), testsAndResults, results);
+        float start = System.nanoTime();
+        for(int i=0; i<10000000; i++) { //10,000,000 attempts
+            boolean[] results = checker(braceChecker, testsAndResults);
+        }
         float end = System.nanoTime();
         float elapsedTime = end - start;
-        System.out.println("Start: " + start + " End: " + end + "elapsedTime: " + elapsedTime);
+        System.out.println("Start: " + start + " End: " + end + " elapsedTime: " + elapsedTime);
+    }
+    static void testRunner(HashMap<String, Boolean> testsAndResults, BraceCheckable braceChecker){
+        boolean[] results = checker(braceChecker, testsAndResults);
+        printResults(braceChecker.getName(), testsAndResults, results);
     }
     static boolean[] checker(BraceCheckable obj,  HashMap<String, Boolean> testMap){
         boolean[] results = new boolean[testMap.size()];
