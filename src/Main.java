@@ -1,20 +1,28 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
         BraceChecker braceChecker = new BraceChecker();
         StackBraceChecker stackBraceChecker = new StackBraceChecker();
+        ReplaceBraceChecker replaceBraceChecker = new ReplaceBraceChecker();
+        RecursiveBraceChecker recursiveBraceChecker = new RecursiveBraceChecker();
+        NonRegexReplaceBraceChecker nonRegexReplaceBraceChecker = new NonRegexReplaceBraceChecker();
+
+        ArrayList<BraceCheckable> checkerList = new ArrayList<>();
+        checkerList.add(braceChecker); checkerList.add(stackBraceChecker); checkerList.add(replaceBraceChecker); checkerList.add(recursiveBraceChecker); checkerList.add(nonRegexReplaceBraceChecker);
+
         HashMap<String, Boolean> testsAndResults = new HashMap<String, Boolean>();
         testsAndResults.put("()", true);
         testsAndResults.put("[(])", false);
         testsAndResults.put("[", false);
         testsAndResults.put("{[()]}", true);
 
-        testRunner(testsAndResults, braceChecker);
-        multiTestRunner(testsAndResults, braceChecker);
+        for(int i=0;i<checkerList.size(); i++){
+            multiTestRunner(testsAndResults, checkerList.get(i));
+            testRunner(testsAndResults, checkerList.get(i));
+        }
 
-        testRunner(testsAndResults, braceChecker);
-        multiTestRunner(testsAndResults, stackBraceChecker);
     }
     static void multiTestRunner(HashMap<String, Boolean> testsAndResults, BraceCheckable braceChecker){
         float nanoConversion = (float) Math.pow(10, 9);
