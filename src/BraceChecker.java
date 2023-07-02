@@ -2,27 +2,28 @@ import java.util.ArrayList;
 public class BraceChecker implements BraceCheckable{
     String name = "BraceChecker.isValid()";
     @Override
-    public boolean isValid(String braces) {
+    public boolean isValid(String braces){
         int len = braces.length();
         if(len==0) return true;
         if(len%2!=0 || len==1) return false;
+        int i=0;
 
-        int i = len-1;
         while(braces.length()>0){
-            i--;
-            if(braces.length()==2){
-                return isOpposite(braces.charAt(0), braces.charAt(1));
-            }
+            char c1 = braces.charAt(i);
+            char c2 = braces.charAt(i+1);
 
-            char open = braces.charAt(i);
-            char close = braces.charAt(i+1);
-
-            if(isOpposite(open, close) && isOpening(open)){
-                braces = braces.substring(0, i) + braces.substring(i+2);
-                i=braces.length()-1;
-            } else if(isOpening(open)){
+            if(i+3>braces.length()){
+                if(isOpposite(c1,c2)){
+                    return true;
+                }
                 return false;
             }
+
+            if(isOpposite(c1, c2)){
+                braces = braces.substring(0,i) + braces.substring(i+2);
+                i = i <= 0 ? 0 : i-2;
+            }
+            i++;
         }
         return true;
     }

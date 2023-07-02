@@ -17,6 +17,7 @@ public class Main {
         testsAndResults.put("[(])", false);
         testsAndResults.put("[", false);
         testsAndResults.put("{[()]}", true);
+        testsAndResults.put("[()]{}{[()()]()}", true);
 
         for(int i=0;i<checkerList.size(); i++){
             multiTestRunner(testsAndResults, checkerList.get(i));
